@@ -98,8 +98,18 @@ var executorID = flag.String(
 	"the ID used by the rep to identify itself to external systems - must be specified",
 )
 
+var azNumber = flag.Int(
+	"azNumber",
+	-1,
+	"the number of the Availability Zone or Cluster that this rep is running on",
+)
+
 func main() {
 	flag.Parse()
+
+	if *azNumber < 0 {
+		log.Fatalf("-azNumber must be specified, and non-negative")
+	}
 
 	if *executorID == "" {
 		log.Fatalf("-executorID must be specified")
@@ -123,7 +133,7 @@ func main() {
 		"task-rep":          initializeTaskRep(*executorID, bbs, logger, executorClient),
 		"stop-lrp-listener": initializeStopLRPListener(lrpStopper, bbs, logger),
 		"api-server":        initializeAPIServer(*executorID, bbs, logger, executorClient),
-		"auction-server":    initializeAuctionNatsServer(*executorID, lrpStopper, bbs, executorClient, logger),
+		"auction-server":    initializeAuctionNatsServer(*azNumber, *executorID, lrpStopper, bbs, executorClient, logger),
 	})
 	monitor := ifrit.Envoke(sigmon.New(group))
 
@@ -239,8 +249,8 @@ func initializeNatsClient(logger lager.Logger) yagnats.NATSClient {
 	return natsClient
 }
 
-func initializeAuctionNatsServer(executorID string, stopper lrp_stopper.LRPStopper, bbs Bbs.RepBBS, executorClient executorapi.Client, logger lager.Logger) *auction_nats_server.AuctionNATSServer {
-	auctionDelegate := auction_delegate.New(executorID, stopper, bbs, executorClient, logger)
+func initializeAuctionNatsServer(azNumber int, executorID string, stopper lrp_stopper.LRPStopper, bbs Bbs.RepBBS, executorClient executorapi.Client, logger lager.Logger) *auction_nats_server.AuctionNATSServer {
+	auctionDelegate := auction_delegate.New(azNumber, executorID, stopper, bbs, executorClient, logger)
 	auctionRep := auctionrep.New(executorID, auctionDelegate)
 	natsClient := initializeNatsClient(logger)
 	return auction_nats_server.New(natsClient, auctionRep, logger)

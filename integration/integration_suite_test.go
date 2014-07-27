@@ -11,6 +11,7 @@ import (
 )
 
 var executorID string
+var azNumber int
 var representativePath string
 var etcdRunner *etcdstorerunner.ETCDClusterRunner
 var natsRunner *natsrunner.NATSRunner
@@ -31,6 +32,8 @@ var _ = BeforeSuite(func() {
 
 	natsRunner = natsrunner.NewNATSRunner(4001)
 	etcdRunner = etcdstorerunner.NewETCDClusterRunner(etcdPort, 1)
+
+	azNumber = 0
 
 	representativePath, err = gexec.Build("github.com/cloudfoundry-incubator/rep", "-race")
 	Ω(err).ShouldNot(HaveOccurred())

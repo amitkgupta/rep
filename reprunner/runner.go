@@ -2,6 +2,7 @@ package reprunner
 
 import (
 	"os/exec"
+	"strconv"
 	"time"
 
 	"github.com/onsi/ginkgo"
@@ -17,6 +18,7 @@ type Runner struct {
 }
 
 type Config struct {
+	azNumber          int
 	stack             string
 	executorID        string
 	lrpHost           string
@@ -28,10 +30,11 @@ type Config struct {
 	heartbeatInterval time.Duration
 }
 
-func New(binPath, executorID, stack, lrpHost, listenAddr, executorURL, etcdCluster, natsAddr, logLevel string, heartbeatInterval time.Duration) *Runner {
+func New(binPath string, azNumber int, executorID, stack, lrpHost, listenAddr, executorURL, etcdCluster, natsAddr, logLevel string, heartbeatInterval time.Duration) *Runner {
 	return &Runner{
 		binPath: binPath,
 		config: Config{
+			azNumber:          azNumber,
 			executorID:        executorID,
 			stack:             stack,
 			lrpHost:           lrpHost,
@@ -53,6 +56,7 @@ func (r *Runner) Start() {
 	repSession, err := gexec.Start(
 		exec.Command(
 			r.binPath,
+			"-azNumber", strconv.Itoa(r.config.azNumber),
 			"-executorID", r.config.executorID,
 			"-stack", r.config.stack,
 			"-lrpHost", r.config.lrpHost,

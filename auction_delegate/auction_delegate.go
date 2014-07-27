@@ -12,6 +12,7 @@ import (
 )
 
 type AuctionDelegate struct {
+	azNumber   int
 	executorID string
 	lrpStopper lrp_stopper.LRPStopper
 	bbs        Bbs.RepBBS
@@ -19,14 +20,19 @@ type AuctionDelegate struct {
 	logger     lager.Logger
 }
 
-func New(executorID string, lrpStopper lrp_stopper.LRPStopper, bbs Bbs.RepBBS, client executorapi.Client, logger lager.Logger) *AuctionDelegate {
+func New(azNumber int, executorID string, lrpStopper lrp_stopper.LRPStopper, bbs Bbs.RepBBS, client executorapi.Client, logger lager.Logger) *AuctionDelegate {
 	return &AuctionDelegate{
+		azNumber:   azNumber,
 		executorID: executorID,
 		lrpStopper: lrpStopper,
 		bbs:        bbs,
 		client:     client,
 		logger:     logger.Session("auction-delegate"),
 	}
+}
+
+func (a *AuctionDelegate) AZNumber() int {
+	return a.azNumber
 }
 
 func (a *AuctionDelegate) RemainingResources() (auctiontypes.Resources, error) {

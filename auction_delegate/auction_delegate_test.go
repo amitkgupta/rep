@@ -22,12 +22,14 @@ var _ = Describe("AuctionDelegate", func() {
 	var clientFetchError error
 	var bbs *fake_bbs.FakeRepBBS
 	var stopper *fake_lrp_stopper.FakeLRPStopper
+	var azNumber int
 
 	BeforeEach(func() {
 		stopper = &fake_lrp_stopper.FakeLRPStopper{}
 		client = new(fake_client.FakeClient)
 		bbs = &fake_bbs.FakeRepBBS{}
-		delegate = New("some-executor-id", stopper, bbs, client, lagertest.NewTestLogger("test"))
+		azNumber = 0
+		delegate = New(azNumber, "some-executor-id", stopper, bbs, client, lagertest.NewTestLogger("test"))
 		clientFetchError = errors.New("Failed to fetch")
 	})
 

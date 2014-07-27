@@ -38,6 +38,7 @@ var _ = Describe("The Rep", func() {
 
 		runner = reprunner.New(
 			representativePath,
+			azNumber,
 			executorID,
 			"the-stack",
 			"the-lrp-host",
