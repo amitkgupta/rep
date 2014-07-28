@@ -68,6 +68,7 @@ type AuctionRepDelegate interface {
 	TotalResources() (Resources, error)
 	NumInstancesForProcessGuid(processGuid string) (int, error)
 	InstanceGuidsForProcessGuidAndIndex(processGuid string, index int) ([]string, error)
+	AZNumber() int
 
 	Reserve(startAuctionInfo StartAuctionInfo) error
 	ReleaseReservation(startAuctionInfo StartAuctionInfo) error
@@ -83,6 +84,7 @@ type SimulationRepPoolClient interface {
 	SimulatedInstances(repGuid string) []SimulatedInstance
 	SetSimulatedInstances(repGuid string, instances []SimulatedInstance)
 	Reset(repGuid string)
+	AZNumber(repGuid string) int
 }
 
 //simulation-only interface
@@ -100,13 +102,17 @@ func NewStartAuctionInfoFromLRPStartAuction(auction models.LRPStartAuction) Star
 
 		InstanceGuid: auction.InstanceGuid,
 		Index:        auction.Index,
+		NumInstances: auction.DesiredLRP.Instances,
+		NumAZs:       auction.NumAZs,
 	}
 }
 
 func NewStopAuctionInfoFromLRPStopAuction(auction models.LRPStopAuction) StopAuctionInfo {
 	return StopAuctionInfo{
-		ProcessGuid: auction.ProcessGuid,
-		Index:       auction.Index,
+		ProcessGuid:  auction.ProcessGuid,
+		Index:        auction.Index,
+		NumInstances: auction.NumInstances,
+		NumAZs:       auction.NumAZs,
 	}
 }
 
@@ -139,6 +145,8 @@ type StartAuctionInfo struct {
 	DiskMB       int
 	MemoryMB     int
 	Index        int
+	NumInstances int
+	NumAZs       int
 }
 
 func (info StartAuctionInfo) LRPIdentifier() models.LRPIdentifier {
@@ -150,8 +158,10 @@ func (info StartAuctionInfo) LRPIdentifier() models.LRPIdentifier {
 }
 
 type StopAuctionInfo struct {
-	ProcessGuid string
-	Index       int
+	ProcessGuid  string
+	Index        int
+	NumInstances int
+	NumAZs       int
 }
 
 type SimulatedInstance struct {

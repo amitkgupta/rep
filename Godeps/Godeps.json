@@ -11,19 +11,19 @@
 		},
 		{
 			"ImportPath": "github.com/cloudfoundry-incubator/auction/auctionrep",
-			"Rev": "0327579e8a3d5960b90cb14667eb5ed14a9d36ea"
+			"Rev": "93ab1445a358f4634b48ae8ed6efdeb930747ca8"
 		},
 		{
 			"ImportPath": "github.com/cloudfoundry-incubator/auction/auctiontypes",
-			"Rev": "0327579e8a3d5960b90cb14667eb5ed14a9d36ea"
+			"Rev": "93ab1445a358f4634b48ae8ed6efdeb930747ca8"
 		},
 		{
 			"ImportPath": "github.com/cloudfoundry-incubator/auction/communication/nats",
-			"Rev": "0327579e8a3d5960b90cb14667eb5ed14a9d36ea"
+			"Rev": "93ab1445a358f4634b48ae8ed6efdeb930747ca8"
 		},
 		{
 			"ImportPath": "github.com/cloudfoundry-incubator/auction/util",
-			"Rev": "0327579e8a3d5960b90cb14667eb5ed14a9d36ea"
+			"Rev": "93ab1445a358f4634b48ae8ed6efdeb930747ca8"
 		},
 		{
 			"ImportPath": "github.com/cloudfoundry-incubator/cf-lager",
@@ -43,11 +43,11 @@
 		},
 		{
 			"ImportPath": "github.com/cloudfoundry-incubator/runtime-schema/bbs",
-			"Rev": "da1b4582eaab6b5461465919109249afbad84113"
+			"Rev": "9c2381f56bbb269678b149bc268e21cf7d06f615"
 		},
 		{
 			"ImportPath": "github.com/cloudfoundry-incubator/runtime-schema/models",
-			"Rev": "da1b4582eaab6b5461465919109249afbad84113"
+			"Rev": "9c2381f56bbb269678b149bc268e21cf7d06f615"
 		},
 		{
 			"ImportPath": "github.com/cloudfoundry/gunk/natsrunner",
@@ -85,7 +85,7 @@
 		},
 		{
 			"ImportPath": "github.com/pivotal-golang/lager",
-			"Rev": "4a7f4216b220966ac3500c9ff297aeae68278a45"
+			"Rev": "e8822eb6379ecd32065776bd84139100cffa5563"
 		},
 		{
 			"ImportPath": "github.com/tedsuo/ifrit",
